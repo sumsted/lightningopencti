@@ -170,6 +170,19 @@ var app = {
     logit: function (entry) {
         $('#logArea').append(entry + "<br/>");
         $("#logArea")[0].scrollTop = $("#logArea")[0].scrollHeight;
+    },
+
+    finesseLogin: function(){
+
+    },
+    finesseLogout: function(){
+
+    },
+    finesseNotificationregister: function(){
+
+    },
+    finesseNotificationCallback: function(){
+
     }
 }
 
