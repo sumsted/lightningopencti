@@ -53,7 +53,7 @@ var app = {
                 app.logit(JSON.stringify(response.returnValue));
                 var result = JSON.parse(response.returnValue["runApex"]);
                 var contact = result[0];
-                var sObjectId = contact["attributes"]["Id"];
+                var sObjectId = contact["Id"];
                 var sObjectUrl = contact["attributes"]["url"];
                 sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
                                         params: sObjectId});
