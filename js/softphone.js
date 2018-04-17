@@ -18,9 +18,7 @@ var app = {
         $('#number2button').click(app.simulateCall);
         $('#number3button').click(app.simulateCall);
 
-        app.logit('Verifying Salesforce console');
-        app.isInConsole();
-
+        app.logit('Adapter Loaded');
     },
 
     simulateCall: function (e) {
