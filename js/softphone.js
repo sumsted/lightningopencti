@@ -51,7 +51,8 @@ var app = {
         if (response != undefined) {
             if (response.success) {
                 app.logit(JSON.stringify(response.returnValue));
-                var contact = response.returnValue[0];
+                var result = JSON.parse(response.returnValue["runApex"]);
+                var contact = result[0];
                 var sObjectId = contact["attributes"]["Id"];
                 var sObjectUrl = contact["attributes"]["url"];
                 sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
