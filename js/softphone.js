@@ -10,9 +10,8 @@ var app = {
         app.getCookie('number2');
         app.getCookie('number3');
 
-        $('#isInConsoleButton').click(app.isInConsole);
         $('#getCallCenterSettingsButton').click(app.getCallCenterSettings);
-        $('#setSoftphoneHeightButton').click(app.setSoftphoneHeight);
+        $('#setSoftphoneHeightButton').click(app.setSoftphonePanelHeight);
         $('#getPageInfoButton').click(app.getPageInfo);
         $('#getSoftphoneLayoutButton').click(app.getSoftphoneLayout);
         $('#number1button').click(app.simulateCall);
@@ -48,52 +47,31 @@ var app = {
         }
     },
 
-    apexSearchContact: function (val) {
-        app.logit('runApex OpenCtiSearchContact(' + val + ')');
-        sforce.opencti.runApex('OpenCtiSearchContact', 'getContacts', 'name=' + val, app.apexSearchContactCallback);
-    },
-
     apexSearchContactCallback: function (response) {
         app.logit('apexSearchContactCallback()');
         if (response != undefined) {
-            if (response.result) {
-                app.logit(response.result);
-                var contacts = JSON.parse(response.result);
+            if (response.success) {
+                app.logit(response.returnValue);
+                var contacts = JSON.parse(response.returnValue);
                 var page = '/'+contacts[0].Id;
-                sforce.opencti.screenPop(page, true, app.screenPopCallback());
+                sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
+                                        params: contacts[0].Id});
             } else {
-                app.logit('Error apexSearchContactCallback: ' + response.error);
+                app.logit('Error apexSearchContactCallback: ' + response.errors);
             }
         } else {
             app.logit('Error apexSearchContactCallback: no response');
         }
     },
 
-    screenPopCallback: function (response) {
-        if (response != undefined) {
-            if (response.result) {
-                app.logit(response.result);
-            } else {
-                app.logit('Error screenPop: ' + response.error);
-            }
-        } else {
-            app.logit('screenPop() called');
-        }
+    apexSearchContact: function (val) {
+        app.logit('runApex OpenCtiSearchContact(' + val + ')');
+        sforce.opencti.runApex({apexClass:'OpenCtiSearchContact',
+                                methodName:'getContacts',
+                                methodParams:'name=' + val,
+                                callback:app.apexSearchContactCallback});
     },
-
-    searchAndScreenPopCallback: function (response) {
-        if (response != undefined) {
-
-            if (response.result) {
-                app.logit(response.result);
-            } else {
-                app.logit('Error searchAndScreenPop: ' + response.error);
-            }
-        } else {
-            app.logit('searchAndScreenPopCallback() called');
-        }
-    },
-
+    
     getCookie: function (id) {
         var cookieName = 'open-cti-' + id;
         var cookieValue = Cookies.get(cookieName);
@@ -104,68 +82,42 @@ var app = {
         }
     },
 
-    isInConsoleCallback: function (response) {
-        if (response.result) {
-            app.logit('Softphone is in Salesforce console.');
-            $("#statusIcon").css({"color": "darkgreen"});
-        } else {
-            app.logit('Softphone is not in Salesforce console.');
-        }
-    },
-
-    isInConsole: function () {
-        app.logit("calling isInConsole() - unsupported in lightning");
-        // sforce.interaction.isInConsole(app.isInConsoleCallback);
-    },
-
     getCallCenterSettingsCallback: function (response) {
-        if (response.result) {
-            app.logit(response.result);
+        if (response.success) {
+            app.logit(response.returnValue);
         } else {
-            app.logit('Error retrieving call center settings' + response.error);
+            app.logit('Error retrieving call center settings' + response.errors);
         }
     },
 
     getCallCenterSettings: function () {
         app.logit("calling getCallCenterSettings()");
-        sforce.opencti.cti.getCallCenterSettings(app.getCallCenterSettingsCallback);
+        sforce.opencti.cti.getCallCenterSettings({callback:app.getCallCenterSettingsCallback});
     },
 
-    setSoftphoneHeightCallback: function (response) {
-        if (response.result) {
+    setSoftphonePanelHeightCallback: function (response) {
+        if (response.success) {
             app.logit('Setting softphone height to 300 px was successful.');
         } else {
             app.logit('Setting softphone height failed.');
         }
     },
 
-    setSoftphoneHeight: function () {
-        app.logit("calling setSoftphoneHeight()");
-        sforce.opencti.cti.setSoftphoneHeight(300, app.setSoftphoneHeightCallback);
-    },
-
-    getPageInfoCallback: function (response) {
-        if (response.result) {
-            app.logit(response.result);
-        } else {
-            app.logit('Error occurred while trying to get page info:' + response.error);
-        }
-    },
-    getPageInfo: function () {
-        app.logit("calling getPageInfo");
-        sforce.opencti.getPageInfo(app.getPageInfoCallback);
+    setSoftphonePanelHeight: function () {
+        app.logit("calling setSoftphonePanelHeight()");
+        sforce.opencti.cti.setSoftphonePanelHeight({heightPX:300, callback:app.setSoftphonePanelHeightCallback});
     },
 
     getSoftphoneLayoutCallback: function (response) {
-        if (response.result) {
-            app.logit(response.result);
+        if (response.success) {
+            app.logit(response.returnValue);
         } else {
-            app.logit('Error occurred while trying to getSoftphoneLayout:' + response.error);
+            app.logit('Error occurred while trying to getSoftphoneLayout:' + response.errors);
         }
     },
     getSoftphoneLayout: function () {
         app.logit("calling getSoftphoneLayout");
-        sforce.opencti.cti.getSoftphoneLayout(app.getSoftphoneLayoutCallback);
+        sforce.opencti.cti.getSoftphoneLayout({callback:app.getSoftphoneLayoutCallback});
     },
     logit: function (entry) {
         $('#logArea').append(entry + "<br/>");
