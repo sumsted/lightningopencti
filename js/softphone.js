@@ -90,7 +90,7 @@ var app = {
 
     getCallCenterSettings: function () {
         app.logit("calling getCallCenterSettings()");
-        sforce.opencti.cti.getCallCenterSettings({callback:app.getCallCenterSettingsCallback});
+        sforce.opencti.getCallCenterSettings({callback:app.getCallCenterSettingsCallback});
     },
 
     setSoftphonePanelHeightCallback: function (response) {
@@ -103,7 +103,7 @@ var app = {
 
     setSoftphonePanelHeight: function () {
         app.logit("calling setSoftphonePanelHeight()");
-        sforce.opencti.cti.setSoftphonePanelHeight({heightPX:400, callback:app.setSoftphonePanelHeightCallback});
+        sforce.opencti.setSoftphonePanelHeight({heightPX:400, callback:app.setSoftphonePanelHeightCallback});
     },
 
     getSoftphoneLayoutCallback: function (response) {
