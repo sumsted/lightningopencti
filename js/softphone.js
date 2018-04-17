@@ -71,7 +71,7 @@ var app = {
                                 methodParams:'name=' + val,
                                 callback:app.apexSearchContactCallback});
     },
-    
+
     getCookie: function (id) {
         var cookieName = 'open-cti-' + id;
         var cookieValue = Cookies.get(cookieName);
@@ -105,7 +105,7 @@ var app = {
 
     setSoftphonePanelHeight: function () {
         app.logit("calling setSoftphonePanelHeight()");
-        sforce.opencti.cti.setSoftphonePanelHeight({heightPX:300, callback:app.setSoftphonePanelHeightCallback});
+        sforce.opencti.cti.setSoftphonePanelHeight({heightPX:400, callback:app.setSoftphonePanelHeightCallback});
     },
 
     getSoftphoneLayoutCallback: function (response) {
@@ -117,7 +117,7 @@ var app = {
     },
     getSoftphoneLayout: function () {
         app.logit("calling getSoftphoneLayout");
-        sforce.opencti.cti.getSoftphoneLayout({callback:app.getSoftphoneLayoutCallback});
+        sforce.opencti.getSoftphoneLayout({callback:app.getSoftphoneLayoutCallback});
     },
     logit: function (entry) {
         $('#logArea').append(entry + "<br/>");

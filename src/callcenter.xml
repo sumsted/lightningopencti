@@ -4,7 +4,7 @@
         <item sortOrder="1" name="reqDisplayName" label="DisplayName">Open CTI Demo</item>
         <item sortOrder="2" name="reqAdapterUrl" label="CTIAdapterURL">https://cti.purplepromise.xyz</item>
         <item sortOrder="3" name="reqUseApi" label="UseCTI API">true</item>
-        <item sortOrder="4" name="reqSoftphoneHeight" label="SoftphoneHeight">300</item>
+        <item sortOrder="4" name="reqSoftphoneHeight" label="SoftphoneHeight">400</item>
         <item sortOrder="5" name="reqSoftphoneWidth" label="SoftphoneWidth">300</item>
         <item sortOrder="6" name="reqSalesforceCompatibilityMode" label=" SalesforceCompatibilityMode">Lightning</item>
     </section>
