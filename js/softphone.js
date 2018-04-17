@@ -56,7 +56,7 @@ var app = {
                 var sObjectId = contact["Id"];
                 var sObjectUrl = contact["attributes"]["url"];
                 sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
-                                        params: sObjectId});
+                                        params: {recordId: sObjectId}});
             } else {
                 app.logit('Error apexSearchContactCallback: ' + response.errors);
             }
