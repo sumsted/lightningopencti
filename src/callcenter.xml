@@ -6,7 +6,7 @@
         <item sortOrder="3" name="reqUseApi" label="UseCTI API">true</item>
         <item sortOrder="4" name="reqSoftphoneHeight" label="SoftphoneHeight">300</item>
         <item sortOrder="5" name="reqSoftphoneWidth" label="SoftphoneWidth">300</item>
-        <item sortOrder="6" name="reqSalesforceCompatabilityMode" label=" SalesforceCompatibilityMode">Lightning</item>
+        <item sortOrder="6" name="reqSalesforceCompatibilityMode" label=" SalesforceCompatibilityMode">Lightning</item>
     </section>
     <section sortOrder="1" name="reqDialingOptions" label="DialingOptions">
         <item sortOrder="0" name="reqOutsidePrefix" label="OutsidePrefix">9</item>
