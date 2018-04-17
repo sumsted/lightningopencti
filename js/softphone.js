@@ -82,9 +82,9 @@ var app = {
 
     getCallCenterSettingsCallback: function (response) {
         if (response.success) {
-            app.logit(response.returnValue);
+            app.logit(JSON.stringify(response.returnValue));
         } else {
-            app.logit('Error retrieving call center settings' + response.errors);
+            app.logit('Error retrieving call center settings' + JSON.stringify(response.errors));
         }
     },
 
@@ -108,9 +108,9 @@ var app = {
 
     getSoftphoneLayoutCallback: function (response) {
         if (response.success) {
-            app.logit(response.returnValue);
+            app.logit(JSON.stringify(response.returnValue));
         } else {
-            app.logit('Error occurred while trying to getSoftphoneLayout:' + response.errors);
+            app.logit('Error occurred while trying to getSoftphoneLayout:' + JSON.stringify(response.errors));
         }
     },
     getSoftphoneLayout: function () {
