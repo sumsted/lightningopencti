@@ -44,16 +44,18 @@ var app = {
             }
         }
     },
-
+//runApex: "[{"attributes":{"type":"Contact","url":"/services/data/v42.0/sobjects/Contact/003f400000HVu4zAAD"},
+// "Id":"003f400000HVu4zAAD","Phone":"901-555-1234","Name":"Harry Lucas"}]"__proto__: Object
     apexSearchContactCallback: function (response) {
         app.logit('apexSearchContactCallback()');
         if (response != undefined) {
             if (response.success) {
-                app.logit(response.returnValue);
-                var contacts = JSON.parse(response.returnValue);
-                var page = '/'+contacts[0].Id;
+                app.logit(JSON.stringify(response.returnValue));
+                var contact = response.returnValue[0];
+                var sObjectId = contact["attributes"]["Id"];
+                var sObjectUrl = contact["attributes"]["url"];
                 sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
-                                        params: contacts[0].Id});
+                                        params: sObjectId});
             } else {
                 app.logit('Error apexSearchContactCallback: ' + response.errors);
             }
