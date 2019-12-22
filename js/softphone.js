@@ -25,7 +25,16 @@ var app = {
         var button =  $(this);
         var icon = $(this).children('span');
         var cookieName = 'open-cti-' + $(button).parent().prev().attr('id');
-        var phone = $(button).parent().prev().val();
+        var inputData = $(button).parent().prev().val();
+        var values = inputData.split(',');
+        var phone = '';
+        var trackingNumber = '';
+        if (values.length > 0) {
+            phone = values[0].trim();
+        }
+        if (values.length > 1) {
+            trackingNumber = values[1].trim();
+        }
         var color = $(icon).css("color");
         var inCall = color === app.inCallColor ? true : false;
         if (inCall) {
@@ -37,8 +46,9 @@ var app = {
                 $(icon).css({"color": app.inCallColor});
                 app.logit("Simulating inbound call");
                 app.logit("ANI: " + phone);
-                app.logit("Searching for contact by phone");
-                app.apexSearchContact(phone);
+                app.logit("Tracking Number: " + trackingNumber);
+                app.logit("Searching for contact by phone and tracking");
+                app.apexSearchContact(phone, trackingNumber);
             } else {
                 app.logit("No ANI identified")
             }
@@ -65,11 +75,11 @@ var app = {
         }
     },
 
-    apexSearchContact: function (val) {
-        app.logit('runApex OpenCtiSearchContact(' + val + ')');
+    apexSearchContact: function (phone, trackingNumber) {
+        app.logit('runApex OpenCtiSearchContact(' + phone + ')');
         sforce.opencti.runApex({apexClass:'OpenCtiSearchContact',
                                 methodName:'getContacts',
-                                methodParams:'name=' + val,
+                                methodParams:'phone=' + phone +'&trackingNumber=' + trackingNumber,
                                 callback:app.apexSearchContactCallback});
     },
 
