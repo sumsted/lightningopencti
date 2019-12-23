@@ -8,8 +8,9 @@ var app = {
 
     outOfCallColor : "rgb(150, 150, 150)",
 
-    // channelName: "trackingChannel__c",
-    channelName: "@salesforce/messageChannel/SampleMessageChannel__c",
+    channelName: "trackingChannel__c",
+    // channelName: "@salesforce/messageChannel/trackingChannel__c",
+    // channelName: "@salesforce/messageChannel/SampleMessageChannel__c",
 
     start: function () {
         app.logit('Initializing adapter')
@@ -56,7 +57,7 @@ var app = {
                 app.logit("ANI: " + phone);
                 app.logit("Tracking Number: " + trackingNumber);
                 app.logit("Searching for contact by phone and tracking");
-                app.apexSearchContact(phone, trackingNumber);
+                // app.apexSearchContact(phone, trackingNumber);
                 app.publishTrackingNumber(trackingNumber);
             } else {
                 app.logit("No ANI identified")
@@ -105,12 +106,15 @@ var app = {
 
     publishTrackingNumber: function(trackingNumber){
         app.logit('publishTrackingNumber()');
-        let message = {
-            'from': 'opencti',
-            'type': app.channelName,
-            'time': new Date().toLocaleTimeString()
-        };
-        sforce.opencti.publish({channelName:app.channelName,message:'{"val":"test"}',callback:lmsCallback});
+        // let message = {
+            // 'from': 'opencti',
+            // 'type': app.channelName,
+            // 'time': new Date().toLocaleTimeString()
+        // };
+        let message = {'trackingNumber':trackingNumber};
+        // sforce.opencti.publish({channelName:app.channelName, message:message, callback:lmsCallback});
+        sforce.opencti.publish({channelName:app.channelName, message:message, callback:lmsCallback});
+        // sforce.opencti.publish({channelName:app.channelName,message:'{"val":"test"}',callback:lmsCallback});
         // sforce.opencti.publish({channelName:app.channelName,message:message,callback:
         //     function(response){
         //         console.log(response);
