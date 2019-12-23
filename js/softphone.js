@@ -1,7 +1,15 @@
+
+function lmsCallback(response){
+    console.log(response);
+}
+
 var app = {
     inCallColor : "rgb(0, 180, 0)",
 
     outOfCallColor : "rgb(150, 150, 150)",
+
+    // channelName: "trackingChannel__c",
+    channelName: "@salesforce/messageChannel/SampleMessageChannel__c",
 
     start: function () {
         app.logit('Initializing adapter')
@@ -42,13 +50,14 @@ var app = {
             $(icon).css({"color": app.outOfCallColor});
         } else {
             if (phone !== '') {
-                Cookies.set(cookieName, phone);
+                Cookies.set(cookieName, inputData);
                 $(icon).css({"color": app.inCallColor});
                 app.logit("Simulating inbound call");
                 app.logit("ANI: " + phone);
                 app.logit("Tracking Number: " + trackingNumber);
                 app.logit("Searching for contact by phone and tracking");
                 app.apexSearchContact(phone, trackingNumber);
+                app.publishTrackingNumber(trackingNumber);
             } else {
                 app.logit("No ANI identified")
             }
@@ -62,11 +71,13 @@ var app = {
             if (response.success) {
                 app.logit(JSON.stringify(response.returnValue));
                 var result = JSON.parse(response.returnValue["runApex"]);
-                var contact = result[0];
-                var sObjectId = contact["Id"];
-                var sObjectUrl = contact["attributes"]["url"];
-                sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
-                                        params: {recordId: sObjectId}});
+                if(result.length > 0){
+                    var contact = result[0];
+                    var sObjectId = contact["Id"];
+                    var sObjectUrl = contact["attributes"]["url"];
+                    sforce.opencti.screenPop({type:sforce.opencti.SCREENPOP_TYPE.SOBJECT,
+                                            params: {recordId: sObjectId}});    
+                }
             } else {
                 app.logit('Error apexSearchContactCallback: ' + response.errors);
             }
@@ -83,6 +94,29 @@ var app = {
                                 callback:app.apexSearchContactCallback});
     },
 
+    publishTrackingNumberCallback: function(response){
+        app.logit('publishTrackingNumberCallback()');
+        if (response.success){
+            app.logit(response.returnValue);
+        } else {
+            app.logit(response.errors);
+        }
+    },
+
+    publishTrackingNumber: function(trackingNumber){
+        app.logit('publishTrackingNumber()');
+        let message = {
+            'from': 'opencti',
+            'type': app.channelName,
+            'time': new Date().toLocaleTimeString()
+        };
+        sforce.opencti.publish({channelName:app.channelName,message:'{"val":"test"}',callback:lmsCallback});
+        // sforce.opencti.publish({channelName:app.channelName,message:message,callback:
+        //     function(response){
+        //         console.log(response);
+        //     }});
+    },
+    
     getCookie: function (id) {
         var cookieName = 'open-cti-' + id;
         var cookieValue = Cookies.get(cookieName);
