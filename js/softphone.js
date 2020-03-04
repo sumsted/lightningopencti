@@ -91,7 +91,8 @@ var app = {
         app.logit('runApex OpenCtiSearchContact(' + phone + ')');
         sforce.opencti.runApex({apexClass:'OpenCtiSearchContact',
                                 methodName:'getContacts',
-                                methodParams:'phone=' + phone +'&trackingNumber=' + trackingNumber,
+                                methodParams:'name=' + phone,
+                                // methodParams:'phone=' + phone +'&trackingNumber=' + trackingNumber,
                                 callback:app.apexSearchContactCallback});
     },
 
