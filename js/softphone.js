@@ -57,8 +57,8 @@ var app = {
                 app.logit("ANI: " + phone);
                 app.logit("Tracking Number: " + trackingNumber);
                 app.logit("Searching for contact by phone and tracking");
-                // app.apexSearchContact(phone, trackingNumber);
-                app.publishTrackingNumber(trackingNumber);
+                app.apexSearchContact(phone, trackingNumber);
+                // app.publishTrackingNumber(trackingNumber);
             } else {
                 app.logit("No ANI identified")
             }
